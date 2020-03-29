@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}
+    Place an order
+{% endblock %}
+
+{% block body %}
+    <p>Place an order now !</p>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit"> Submit </button>
+    </form>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+{% if category %} {{category.name}} Products {% else %} All Products {% endif %}
+{% endblock %}
+
+
+{% block body %}
+
+    <h2></h2>
+    <ul>
+        <li> <a href="{% url 'shop:all_products' %}">{% if not category %} --> All {% else %} All {% endif %}</a></li>
+        {% for c in categories %}
+        <li><a href="{{c.get_absolute_url}}">{% if c == category %} --> {% endif %} {{c.name}}</a></li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <hr>
+        {% for product in products %}
+        <h2><a href="{{product.get_absolute_url }}">{{product.name }}</a></h2>
+        <img src="{{product.image.url}}" width="150" height="150">
+        {{product.price}}
+        <hr>
+        {% endfor %}
+    
+{% endblock %}

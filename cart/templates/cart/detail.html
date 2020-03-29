@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}
+Your cart
+{% endblock %}
+
+{% block body %}
+    <p style="text-align: center;"><strong>Total Price:</strong> {{cart.total_price}}</p>
+    {% if cart.coupon %}
+        <p>Your Coupon Code : <span style="color: red;">{{cart.coupon.code}}</span></p>
+        <p>{{cart.coupon.discount}} % equal to {{cart.get_discount}}</p>
+        <p>Final bill after the discount {{cart.get_total_price_after_discount}}</p>
+    {% endif %}
+    {% for item in cart %}
+        <h3><a href="{{item.product.get_absolute_url}}">{{item.product.name}}</a></h3>
+        <p><span>Unit Price : </span>{{item.price}}</p>
+        <p><span>Total Number : </span>{{item.quantity}}</p>
+        <p><span>Total Price : </span>{{item.total_price}}</p>
+        <span style="color:red;"><a href="{% url 'cart:remove_product' item.product.id %}">Remove</a></span>
+        
+        <form method="POST" action="{% url 'cart:add_product' %}">
+            {% csrf_token %}
+            {{item.update_quantity_form.as_p}}
+            <button type="submit"> Update </button>
+        </form>
+        
+        <hr><hr>
+
+    {% empty %}
+    <h2>add products to the cart so you can see them here </h2>
+    {% endfor %}
+    <p><a href="{% url 'shop:all_products' %}">Continue Shopping --> </a></p>
+    
+    <p>Add Coupon: </p>
+    <form method="POST" action="{% url 'coupons:add_coupon' %}">
+        {% csrf_token %}
+
+        {{coupon_form.as_p}}
+        <button type="submit">Add</button>
+    </form>
+
+    <p><a href="{% url 'order:order_form' %}">CheckOut </a></p>
+{% endblock %}

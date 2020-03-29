@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        img {
+            width: 150px;
+            height: 150px;
+        }
+    </style>
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <hr>
+        {%if cart|length %}
+            <p>{{cart|length}} Item{{cart|length|pluralize}} in the <a href="{% url 'cart:cart_detail'%}">cart </a></p>
+        {% else %}
+            <p>Your <a href="{% url 'cart:cart_detail'%}">cart </a> is empty</p>
+        {% endif %}
+        <hr>
+    </nav>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>
